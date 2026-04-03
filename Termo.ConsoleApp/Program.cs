@@ -6,26 +6,24 @@ class Program
 {
     static void Main(string[] args)
     {   
-        string palavra = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
-        IniciarCabecalho();                                     // Inicia o cabeçalho e mostra as regras iniciais
-        while(true)                                             // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
+        string palavraSorteada = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
+        Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
+        IniciarCabecalho();                                             // Inicia o cabeçalho e mostra as regras iniciais
+        for (int execucao = 0; execucao < 5; execucao++)                // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
         {
-            string palavraJogador = InicioJogo();               // Retorna a entrada do jogador ja tratada
+            string palavraJogador = InicioJogo();                       // Retorna a entrada do jogador tratada
             
-            //ConfereLetraLetra();
+            ConfereLetraLetra(palavraSorteada, palavraJogador);         // Compara cada letra e devolve resultado
+            
+            ConferirPontuacao();                                        // Retorna pontuação vencida/para/continua
 
-            foreach(char caracter in palavraJogador)
-            {
-                Console.Write($"[{caracter}] ");
-            }
+            Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
 
-            Console.WriteLine($"\n{palavra}");
-        
-        
-            break;
+            Banner();
+            
         }
-        
     }
+
     static string SorteioPalavra()
     {
         int indice = RandomNumberGenerator.GetInt32(0, BancoPalavras.palavras.Length);
@@ -34,9 +32,7 @@ class Program
 
     static void IniciarCabecalho()
     {
-        Console.WriteLine("- = - = - = - = -");
-        Console.WriteLine("      Termo      ");
-        Console.WriteLine("- = - = - = - = -");
+        Banner();
         Console.WriteLine("\nRegras: ");
         Console.WriteLine("  Você tem (5) tentativas");
         Console.WriteLine("  As palavras contem 5 digitos");
@@ -54,7 +50,23 @@ class Program
         Console.Write("     Vermelho:");Console.ResetColor();
         Console.WriteLine(" letra inexistente na palavra");
     }
-
+    static void Banner()
+    {
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"████████╗ "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ResetColor();Console.Write(" ██████╗  ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine(" ██████╗ ");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"╚══██╔══╝ "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔════╝"); Console.ResetColor();Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("████╗ ████║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██╔═══██╗");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("█████╗  "); Console.ResetColor();Console.Write(" ██████╔╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██╔████╔██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██║   ██║");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔══╝  "); Console.ResetColor();Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║╚██╔╝██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██║   ██║");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ResetColor();Console.Write(" ██║  ██║ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("╚██████╔╝");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write(@"   ╚═╝    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝"); Console.ResetColor();Console.Write(" ╚═╝  ╚═╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine(" ╚═════╝ ");
+        
+        Console.ResetColor();
+    }
     static string InicioJogo()
     {
         string? palavraJogador;
@@ -73,11 +85,12 @@ class Program
             palavraJogador = palavraJogador.Trim().ToLower();
             palavraJogador = palavraJogador.Replace(" ", "");
 
-            bool letraVerificada = VerificarLetraEntrada(palavraJogador);
+            bool letraVerificada = VerificarLetraEntrada(palavraJogador);           // Retorna a verificação se é apenas letras
 
             if (!letraVerificada)
             {
-                Console.WriteLine("Digite apenas letras");continue;
+                Console.WriteLine("Digite apenas letras");
+                continue;
             }
 
             if (palavraJogador.Length != 5)
@@ -105,10 +118,36 @@ class Program
         return LetraVerificada;
     }
     
-    static void ConfereLetraLetra(string palavraJogador)
+    static void ConfereLetraLetra(string palavraSorteada, string palavraJogador)
+    {
+        for (int i = 0; i < palavraSorteada.Length; i++)
+        {
+            if (palavraSorteada[i] == palavraJogador[i])
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"[{palavraJogador[i]}] ");
+                Console.ResetColor();
+            }
+            else if (palavraSorteada.Contains(palavraJogador[i]))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write($"[{palavraJogador[i]}] ");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"[{palavraJogador[i]}] ");
+                Console.ResetColor();
+            }
+        }
+    }
+
+    static void ConferirPontuacao()
     {
         
     }
+    
 }
 
 static class BancoPalavras
