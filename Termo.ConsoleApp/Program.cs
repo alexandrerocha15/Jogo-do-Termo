@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Reflection.Metadata;
+using System.Security.Cryptography;
 
 namespace Termo.ConsoleApp;
 
@@ -6,6 +7,15 @@ class Program
 {
     static void Main(string[] args)
     {   
+
+        foreach (ConsoleColor cor in Enum.GetValues(typeof(ConsoleColor)))
+{
+    Console.ForegroundColor = cor;
+    Console.WriteLine($"Essa é a cor: {cor}");
+}
+
+Console.ReadLine();
+
         string palavraSorteada = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
         Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
         IniciarCabecalho();                                             // Inicia o cabeçalho e mostra as regras iniciais
@@ -15,6 +25,12 @@ class Program
             
             ConfereLetraLetra(palavraSorteada, palavraJogador);         // Compara cada letra e devolve resultado
             
+            bool resultado = ConferePalavraCompleta(palavraJogador, palavraSorteada); // Confere se a palavra é totalmente certa
+            if (resultado == true)                                      // Verifica se a entrada é certa
+            {
+                Vitoria(palavraJogador);
+                break;
+            }
             ConferirPontuacao();                                        // Retorna pontuação vencida/para/continua
 
             Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
@@ -22,6 +38,9 @@ class Program
             Banner();
             
         }
+
+        Console.WriteLine("Digite ENTER para encerrar");
+        Console.ReadLine();
     }
 
     static string SorteioPalavra()
@@ -48,22 +67,22 @@ class Program
 
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write("     Vermelho:");Console.ResetColor();
-        Console.WriteLine(" letra inexistente na palavra");
+        Console.WriteLine(" letra inexistente na palavra\n");
     }
     static void Banner()
     {
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"████████╗ "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ResetColor();Console.Write(" ██████╗  ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine(" ██████╗ ");
+        Console.Write(@"████████╗ ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╗  ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ██████╗ ");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"╚══██╔══╝ "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔════╝"); Console.ResetColor();Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("████╗ ████║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██╔═══██╗");
+        Console.Write(@"╚══██╔══╝ ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔════╝");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("████╗ ████║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██╔═══██╗");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("█████╗  "); Console.ResetColor();Console.Write(" ██████╔╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██╔████╔██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██║   ██║");
+        Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("█████╗  ");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╔╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██╔████╔██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔══╝  "); Console.ResetColor();Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║╚██╔╝██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("██║   ██║");
+        Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔══╝  ");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║╚██╔╝██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"   ██║    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ResetColor();Console.Write(" ██║  ██║ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("╚██████╔╝");
+        Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██║  ██║ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("╚██████╔╝");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write(@"   ╚═╝    "); Console.ResetColor();Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝"); Console.ResetColor();Console.Write(" ╚═╝  ╚═╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine(" ╚═════╝ ");
+        Console.Write(@"   ╚═╝    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ╚═╝  ╚═╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ╚═════╝ ");
         
         Console.ResetColor();
     }
@@ -102,7 +121,6 @@ class Program
             return palavraJogador;
         }
     }
-
     static bool VerificarLetraEntrada(string palavraJogador)
     {
         bool LetraVerificada = true;
@@ -117,7 +135,6 @@ class Program
         }
         return LetraVerificada;
     }
-    
     static void ConfereLetraLetra(string palavraSorteada, string palavraJogador)
     {
         for (int i = 0; i < palavraSorteada.Length; i++)
@@ -142,8 +159,44 @@ class Program
             }
         }
     }
-
+    static bool ConferePalavraCompleta(string palavraJogador, string palavraSorteada)
+    {
+        bool resultado = false;
+        if (palavraJogador == palavraSorteada)
+        {
+            return true;
+        }
+        return false;
+    }
     static void ConferirPontuacao()
+    {
+        
+    }
+
+    static void Vitoria(string palavraJogador)
+    {
+        Console.Clear();
+        Banner();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"A palavra '{palavraJogador}' esta CORRETA!\n");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine(@$"
+            ___________
+           '._==_==_=_.'
+           .-\:      /-.
+          | (|:.     |) |
+           '-|:.{palavraJogador}|-'
+             \::.    /
+              '::. .'       Parabéns!!
+                ) (
+              _.' '._
+               `""""""""`
+        ");
+        Console.ResetColor();
+    }
+
+    static void Derrota()
     {
         
     }
