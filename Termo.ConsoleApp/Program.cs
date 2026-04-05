@@ -12,7 +12,6 @@ class Program
         {
             int jogadas = 0;
             string palavraSorteada = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
-            Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
             IniciarCabecalho();                                             // Inicia o cabeçalho e mostra as regras iniciais
             while(true)     // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
             {
