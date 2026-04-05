@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Metadata;
 using System.Security.Cryptography;
+using System.Xml;
 
 namespace Termo.ConsoleApp;
 
@@ -9,18 +10,21 @@ class Program
     {   
 
         foreach (ConsoleColor cor in Enum.GetValues(typeof(ConsoleColor)))
-{
-    Console.ForegroundColor = cor;
-    Console.WriteLine($"Essa é a cor: {cor}");
-}
-
-Console.ReadLine();
-
+        {
+            Console.ForegroundColor = cor;
+            Console.WriteLine($"Essa é a cor: {cor}");
+        }
+        Console.ReadLine();
+        
+        int jogadas = 0;
         string palavraSorteada = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
         Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
         IniciarCabecalho();                                             // Inicia o cabeçalho e mostra as regras iniciais
-        for (int execucao = 0; execucao < 5; execucao++)                // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
+        bool JogoAndamento = true;
+        while(JogoAndamento)                // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
         {
+            jogadas++;
+            ConferirPontuacao(JogoAndamento, jogadas);                                        // Retorna pontuação vencida/para/continua
             string palavraJogador = InicioJogo();                       // Retorna a entrada do jogador tratada
             
             ConfereLetraLetra(palavraSorteada, palavraJogador);         // Compara cada letra e devolve resultado
@@ -28,10 +32,10 @@ Console.ReadLine();
             bool resultado = ConferePalavraCompleta(palavraJogador, palavraSorteada); // Confere se a palavra é totalmente certa
             if (resultado == true)                                      // Verifica se a entrada é certa
             {
-                Vitoria(palavraJogador);
+                Derrota(palavraSorteada);
                 break;
             }
-            ConferirPontuacao();                                        // Retorna pontuação vencida/para/continua
+
 
             Console.WriteLine($"\nParalavra Sorteada: {palavraSorteada}");
 
@@ -48,29 +52,29 @@ Console.ReadLine();
         int indice = RandomNumberGenerator.GetInt32(0, BancoPalavras.palavras.Length);
         return BancoPalavras.palavras[indice];
     }
-
     static void IniciarCabecalho()
     {
         Banner();
         Console.WriteLine("\nRegras: ");
-        Console.WriteLine("  Você tem (5) tentativas");
-        Console.WriteLine("  As palavras contem 5 digitos");
+        Console.WriteLine(" Você tem (5) tentativas");
+        Console.WriteLine(" As palavras contem 5 digitos");
 
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write("     Verde...:");Console.ResetColor();
+        Console.Write("  Verde...:");Console.ResetColor();
         Console.WriteLine(" letra correta na posição correta.");
         Console.ResetColor();
 
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write("     Amarelo.:");Console.ResetColor();
+        Console.Write("  Amarelo.:");Console.ResetColor();
         Console.WriteLine(" a letra existe, mas está na posição errada");
 
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("     Vermelho:");Console.ResetColor();
+        Console.Write("  Vermelho:");Console.ResetColor();
         Console.WriteLine(" letra inexistente na palavra\n");
     }
     static void Banner()
     {
+        //Console.Clear();
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write(@"████████╗ ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╗  ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ██████╗ ");
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -83,7 +87,6 @@ Console.ReadLine();
         Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██║  ██║ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("╚██████╔╝");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write(@"   ╚═╝    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ╚═╝  ╚═╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ╚═════╝ ");
-        
         Console.ResetColor();
     }
     static string InicioJogo()
@@ -161,44 +164,54 @@ Console.ReadLine();
     }
     static bool ConferePalavraCompleta(string palavraJogador, string palavraSorteada)
     {
-        bool resultado = false;
         if (palavraJogador == palavraSorteada)
         {
             return true;
         }
         return false;
     }
-    static void ConferirPontuacao()
+    static bool ConferirPontuacao(bool JogoAndamento, int jogadas)
     {
-        
+        if(jogadas == 5)
+        {
+            JogoAndamento = false;
+        }
+        return false;
     }
-
-    static void Vitoria(string palavraJogador)
+    static void Vitoria(string palavraSorteada)
     {
         Console.Clear();
         Banner();
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"A palavra '{palavraJogador}' esta CORRETA!\n");
+        Console.WriteLine($"A palavra '{palavraSorteada}' esta CORRETA!");
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine(@$"
-            ___________
-           '._==_==_=_.'
-           .-\:      /-.
-          | (|:.     |) |
-           '-|:.{palavraJogador}|-'
-             \::.    /
-              '::. .'       Parabéns!!
-                ) (
-              _.' '._
-               `""""""""`
+         _  _  __  ____  __  ____  __   __  
+        / )( \(  )(_  _)/  \(  _ \(  ) / _\ 
+        \ \/ / )(   )( (  O ))   / )( /    \
+         \__/ (__) (__) \__/(__\_)(__)\_/\_/
         ");
+
         Console.ResetColor();
     }
 
-    static void Derrota()
+    static void Derrota(string palavraSorteada)
     {
-        
+        Console.Clear();
+        Banner();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write($"Que pena a palavra era ");
+        Console.ForegroundColor = ConsoleColor.DarkRed;Console.WriteLine($"'{palavraSorteada}'");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(@$"
+         ____  ____  ____  ____   __  ____  __  
+        (    \(  __)(  _ \(  _ \ /  \(_  _)/ _\ 
+         ) D ( ) _)  )   / )   /(  O ) )( /    \
+        (____/(____)(__\_)(__\_) \__/ (__)\_/\_/
+        ");
+        Console.ResetColor();
     }
     
 }
