@@ -47,9 +47,6 @@ O sistema irá sortear uma palavra aleatória. Digite uma palavra de 5 letras, o
 - .NET SDK 10.0
 
 
-Site para fazer ASCII Art via texto:
-link: https://patorjk.com/software/taag/
-
 ## 🎨 Elementos visuais
 
 Para melhorar a experiência visual no console, o projeto utiliza banners em ASCII Art gerados com a ferramenta **TAAG – Text to ASCII Art Generator**.
