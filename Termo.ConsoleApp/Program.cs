@@ -214,8 +214,8 @@ class Program
 
 static class BancoPalavras
 {
-    public static string[] palavras = {"vento", "terra", "livro"}; /*, "canil", "leite", "carro", 
+    public static string[] palavras = {"vento", "terra", "livro", "canil", "leite", "carro", 
         "porta", "chave", "peixe", "cobra", "porco", "cinto", "calca", "praia", "areia", "nuvem",
         "chuva", "vento", "calor", "verde", "preto", "amigo", "irmao", "filho", "arroz", "caixa"
-    };*/
+    };
 }
