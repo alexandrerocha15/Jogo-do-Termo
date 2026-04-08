@@ -32,7 +32,7 @@ class Program
 
             Console.WriteLine("\nDeseja Jogar novamente? (s/N)");
             string? ContinuarJogo = Console.ReadLine();
-            if (ContinuarJogo.ToUpper() != "S") break;
+            if (ContinuarJogo?.ToUpper() != "S") break;
         }
         static string SorteioPalavra()
         {
@@ -187,7 +187,6 @@ class Program
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" esta CORRETA!");
             Console.ResetColor();
-            Console.WriteLine();
         }
         static void Derrota(string palavraSorteada)
         {
@@ -204,7 +203,6 @@ class Program
             Console.Write($"Que pena a palavra era ");
             Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"'{palavraSorteada}'");
             Console.ResetColor();
-            Console.WriteLine();
         }
     }
 }
