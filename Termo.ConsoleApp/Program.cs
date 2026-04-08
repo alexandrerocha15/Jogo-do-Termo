@@ -13,7 +13,8 @@ class Program
             int jogadas = 0;
             string palavraSorteada = SorteioPalavra(); // metodo para sortear a palavra, retorna palavra sorteada
             IniciarCabecalho(); // Inicia o cabeçalho e mostra as regras iniciais
-            while (true) // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
+            bool resultado= true;
+            while (resultado) // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
             {
                 Console.Clear();
                 Banner();
@@ -21,19 +22,7 @@ class Program
                 Console.WriteLine($"Você tem ({6 - jogadas}) jogadas restantes");
                 string palavraJogador = InicioJogo(); // Retorna a entrada do jogador tratada
                 ConfereLetraLetra(palavraSorteada, palavraJogador); // Compara cada letra e printa resultado
-                bool resultado = ConfereVitoria(palavraJogador, palavraSorteada); // Confere se a palavra é totalmente certa
-
-                if (resultado == true) // Verifica se a entrada é certa
-                {
-                    Vitoria(palavraSorteada);
-                    break;
-                }
-
-                if (jogadas == 5) // Quebra o looping se o jogador atingir numero de tentativas
-                {
-                    Derrota(palavraSorteada);
-                    break;
-                }
+                resultado = ConfereVitoria(palavraJogador, palavraSorteada, jogadas); // Confere se a palavra é totalmente certa
 
                 Console.WriteLine();
                 Console.WriteLine("\nDigite ENTER para continuar");
@@ -41,7 +30,7 @@ class Program
                 Console.ReadLine();
             }
 
-            Console.WriteLine("Deseja Jogar novamente? (s/N)");
+            Console.WriteLine("\nDeseja Jogar novamente? (s/N)");
             string? ContinuarJogo = Console.ReadLine();
             if (ContinuarJogo.ToUpper() != "S") break;
         }
@@ -164,13 +153,21 @@ class Program
             }
             Console.WriteLine();
         }
-        static bool ConfereVitoria(string palavraJogador, string palavraSorteada)
+        static bool ConfereVitoria(string palavraJogador, string palavraSorteada, int jogadas)
         {
-            if (palavraJogador == palavraSorteada)
+            if (palavraJogador == palavraSorteada) // Verifica se a entrada é certa
             {
-                return true;
+                Vitoria(palavraSorteada);
+                return false;
             }
-            return false;
+
+            if (jogadas == 5) // Quebra o looping se o jogador atingir numero de tentativas
+            {
+                Derrota(palavraSorteada);
+                return false;
+            }
+
+            return true;
         }
         static void Vitoria(string palavraSorteada)
         {
