@@ -7,30 +7,31 @@ namespace Termo.ConsoleApp;
 class Program
 {
     static void Main(string[] args)
-    {  
-        while (true)        // Inicia o primeiro Looping pra retornar resposta depois
+    {
+        while (true) // Inicia o primeiro Looping pra retornar resposta depois
         {
             int jogadas = 0;
-            string palavraSorteada = SorteioPalavra();                      // metodo para sortear a palavra, retorna palavra sorteada
-            IniciarCabecalho();                                             // Inicia o cabeçalho e mostra as regras iniciais
-            while(true)     // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
+            string palavraSorteada = SorteioPalavra(); // metodo para sortear a palavra, retorna palavra sorteada
+            IniciarCabecalho(); // Inicia o cabeçalho e mostra as regras iniciais
+            while (true) // Inicia o jogo com a palavra escolhida, recebe a entrada do jogador e retorna
             {
                 Console.Clear();
                 Banner();
                 jogadas++;
                 Console.WriteLine($"Você tem ({6 - jogadas}) jogadas restantes");
-                string palavraJogador = InicioJogo();                       // Retorna a entrada do jogador tratada
-                ConfereLetraLetra(palavraSorteada, palavraJogador);         // Compara cada letra e printa resultado
+                string palavraJogador = InicioJogo(); // Retorna a entrada do jogador tratada
+                ConfereLetraLetra(palavraSorteada, palavraJogador); // Compara cada letra e printa resultado
                 bool resultado = ConfereVitoria(palavraJogador, palavraSorteada); // Confere se a palavra é totalmente certa
 
-                if(jogadas == 5)// Quebra o looping se o jogador atingir numero de tentativas
-                {
-                    Derrota(palavraSorteada);
-                    break;
-                }           
-                else if (resultado == true)                                      // Verifica se a entrada é certa
+                if (resultado == true) // Verifica se a entrada é certa
                 {
                     Vitoria(palavraSorteada);
+                    break;
+                }
+
+                if (jogadas == 5) // Quebra o looping se o jogador atingir numero de tentativas
+                {
+                    Derrota(palavraSorteada);
                     break;
                 }
 
@@ -44,7 +45,6 @@ class Program
             string? ContinuarJogo = Console.ReadLine();
             if (ContinuarJogo.ToUpper() != "S") break;
         }
-
         static string SorteioPalavra()
         {
             int indice = RandomNumberGenerator.GetInt32(0, BancoPalavras.palavras.Length);
@@ -57,37 +57,37 @@ class Program
             Console.WriteLine("\nRegras: ");
             Console.WriteLine(" Você tem (5) tentativas");
             Console.WriteLine(" As palavras contem 5 digitos");
-    
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("  Verde...:");Console.ResetColor();
+            Console.Write("  Verde...:"); Console.ResetColor();
             Console.WriteLine(" letra correta na posição correta.");
             Console.ResetColor();
-    
+
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("  Amarelo.:");Console.ResetColor();
+            Console.Write("  Amarelo.:"); Console.ResetColor();
             Console.WriteLine(" a letra existe, mas está na posição errada");
-    
+
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("  Vermelho:");Console.ResetColor();
+            Console.Write("  Vermelho:"); Console.ResetColor();
             Console.WriteLine(" letra inexistente na palavra\n");
-    
+
             Console.WriteLine("Digite ENTER para iniciar");
             Console.ReadLine();
         }
         static void Banner()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"████████╗ ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╗  ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ██████╗ ");
+            Console.Write(@"████████╗ "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╗  "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("███╗   ███╗ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ██████╗ ");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"╚══██╔══╝ ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔════╝");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("████╗ ████║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██╔═══██╗");
+            Console.Write(@"╚══██╔══╝ "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔════╝"); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("████╗ ████║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██╔═══██╗");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("█████╗  ");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╔╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██╔████╔██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
+            Console.Write(@"   ██║    "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("█████╗  "); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██████╔╝ "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("██╔████╔██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔══╝  ");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║╚██╔╝██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
+            Console.Write(@"   ██║    "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("██╔══╝  "); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██╔══██╗ "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("██║╚██╔╝██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("██║   ██║");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"   ██║    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██║  ██║ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("╚██████╔╝");
+            Console.Write(@"   ██║    "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("███████╗"); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ██║  ██║ "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("██║ ╚═╝ ██║ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("╚██████╔╝");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(@"   ╚═╝    ");Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝");Console.ForegroundColor = ConsoleColor.White; Console.Write(" ╚═╝  ╚═╝ ");Console.ForegroundColor = ConsoleColor.Red;Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ╚═════╝ ");
+            Console.Write(@"   ╚═╝    "); Console.ForegroundColor = ConsoleColor.Yellow; Console.Write("╚══════╝"); Console.ForegroundColor = ConsoleColor.White; Console.Write(" ╚═╝  ╚═╝ "); Console.ForegroundColor = ConsoleColor.Red; Console.Write("╚═╝     ╚═╝ "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" ╚═════╝ ");
             Console.ResetColor();
         }
         static string InicioJogo()
@@ -102,7 +102,7 @@ class Program
                 if (string.IsNullOrWhiteSpace(palavraJogador))
                 {
                     Console.WriteLine("Digite algo válido!");
-                    continue;                
+                    continue;
                 }
 
                 palavraJogador = palavraJogador.Trim().ToLower();
@@ -205,16 +205,15 @@ class Program
             ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"Que pena a palavra era ");
-            Console.ForegroundColor = ConsoleColor.DarkRed;Console.WriteLine($"'{palavraSorteada}'");
+            Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"'{palavraSorteada}'");
             Console.ResetColor();
             Console.WriteLine();
         }
     }
 }
-
 static class BancoPalavras
 {
-    public static string[] palavras = {"vento", "terra", "livro", "canil", "leite", "carro", 
+    public static string[] palavras = {"vento", "terra", "livro", "canil", "leite", "carro",
         "porta", "chave", "peixe", "cobra", "porco", "cinto", "calca", "praia", "areia", "nuvem",
         "chuva", "vento", "calor", "verde", "preto", "amigo", "irmao", "filho", "arroz", "caixa"
     };
